@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/public/img/logo.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <title>Blog Detail</title>
+</head>
+<body>
+  <!-- navbar -->
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#"><img src="/public/img/logo.png"
+                style="width: 50px; height: 50px; object-fit: contain; margin-left: 40px;" /></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/">Home</a>
+                </li>
+                {{if .Data.IsLogin}}
+                <li class="nav-item">
+                    <a class="nav-link active" style="width: 200px;" href="/formblog">Add Project</a>
+                </li>
+                {{end}}
+                <!-- <li class="nav-item d-flex bg-warning">
+                </li> -->
+            </ul>
+
+            <div class="d-flex w-100 justify-content-end">
+              {{if .Data.IsLogin}}
+              <a href="#" style="text-decoration: none; color:orangered; padding-right: 10px; padding-top: 7px;">Welcome, {{.Data.Username}}</a>
+              <a href="/logout" style="text-decoration: none; color:black; padding-right: 10px; padding-top: 7px;">Logout</a>
+              {{else}}
+              <a href="/register" style="text-decoration: none; color:black; padding-right: 10px; padding-top: 7px;">Register</a>
+              <a href="/login" style="text-decoration: none; color:black; padding-right: 10px; padding-top: 7px;">Login</a>
+              {{end}}
+              <a href="/contact" class="btn btn-danger bg-black">Contact Me</a>
+            </div>
+        </div>
+    </div>
+  </nav>  
+  <!-- Blog -->
+  <div class="container">
+    <div class="row">
+      {{range $index, $data := .Blogs }}
+      <h1 style="text-align: center; margin-top: 20px; margin-bottom: 20px;">{{$data.Name}}</h1>
+      <div class="col-sm-5 col-md-6">
+        <img src="/uploads/{{$data.Image}}" alt="detail" style="width: 100%;"/>
+      </div>
+      <div class="col-sm-5 offset-sm-2 col-md-6 offset-md-0">
+        <div class="col">
+          <h3>Duration</h3>
+        </div>
+        <div class="my-3">
+          <i class="fa-solid fa-calendar-days" style="padding-right: 10px;"></i>{{$data.Format_date}} - {{$data.Test}}
+        </div>
+        <div class="col my-3">
+          <i class="fa-solid fa-clock" style="padding-right: 10px;"></i>{{$data.Duration}}
+        </div>
+        <div class="col my-3">
+          <h3>Technology</h3>
+        </div>
+        
+        <div class="row">
+          {{ range $index, $checkboxes := $data.Technologies}}
+          <div class="col-4">
+            {{if (eq $checkboxes "NodeJS" ) }}<i class="fa-brands fa-node-js" style="padding-right: 10px;"></i>Node JS
+            {{ else if (eq $checkboxes "ReactJS" ) }}<i class="fa-brands fa-react" style="margin-right: 10px;"></i>React JS
+          </div>
+          <div class="col-4">
+            {{ else if (eq $checkboxes "PHP" ) }}<i class="fa-brands fa-php" style="padding-right: 10px;"></i>PHP
+            {{ else if (eq $checkboxes "Javascript" ) }}<i class="fa-brands fa-node-js" style="padding-right: 10px;"></i>Javascript
+          </div>
+          {{ end }}
+        </div>
+        {{ end }}
+      </div>
+    </div>  
+    <div class="col my-4" style="text-align: justify;">
+      {{$data.Description}}
+    </div>  
+      {{ end }}
+  </div>
+</body> 
+</html>
